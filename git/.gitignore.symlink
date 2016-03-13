@@ -1,0 +1,16 @@
+# OSX files
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Temporary files
+*~
+*.swp
+
+# Windows
+Desktop.ini
+Thumbs.db
+
+# Python
+*.py[cod]

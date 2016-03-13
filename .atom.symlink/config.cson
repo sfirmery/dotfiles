@@ -1,0 +1,33 @@
+"*":
+  core:
+    disabledPackages: [
+      "background-tips"
+      "exception-reporting"
+      "metrics"
+    ]
+    hideGitIgnoredFiles: true
+    ignoredNames: [
+      ".bundle"
+      ".git"
+      "log"
+      "tmp"
+      "vendor"
+    ]
+    themes: [
+      "one-light-ui"
+      "solarized-dark-syntax"
+    ]
+  editor:
+    fontFamily: "Menlo"
+    invisibles: {}
+    showIndentGuide: true
+    showInvisibles: true
+    softWrapAtPreferredLineLength: true
+  minimap:
+    plugins:
+      linter: true
+      linterDecorationsZIndex: 0
+      "split-diff": true
+      "split-diffDecorationsZIndex": 0
+  welcome:
+    showOnStartup: false

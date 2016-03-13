@@ -1,0 +1,22 @@
+cask_args appdir: '/Applications'
+
+tap 'caskroom/cask'
+tap 'homebrew/bundle'
+
+brew 'ack'
+brew 'coreutils'
+brew 'node'
+brew 'unrar'
+brew 'wget'
+brew 'zsh'
+
+#cask '1password'
+cask 'adium'
+cask 'atom'
+cask 'firefox'
+cask 'flash'
+cask 'github-desktop'
+cask 'google-chrome'
+cask 'sourcetree'
+cask 'transmission'
+cask 'vlc'
