@@ -1,6 +1,6 @@
 minimap
 todo-show
-file-icones
+file-icons
 atom-beautify
 
 linter
@@ -18,4 +18,3 @@ language-ansible
 pull-requests
 git-time-machine
 merge-conflicts
-
