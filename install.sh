@@ -84,4 +84,4 @@ done
 # Atom part
 apm install --check
 echo "Installing Atom packages"
-apm install --packages-file atom/package.json
+apm install --packages-file atom/Atom.packages
