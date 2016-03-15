@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $(dirname $0)
+cd "$(dirname $0)" || exit
 dot_path=$(pwd -P)
 date=$(date +%Y%m%d-%H%M%S)
 
@@ -23,7 +23,7 @@ link_file() {
 }
 
 # install homebrew
-if [ "$(uname)" == "Darwin" ] && [ ! -f $(which brew) ]; then
+if [ "$(uname)" == "Darwin" ] && [ ! -f "$(which brew)" ]; then
   echo "Installing Homebrew"
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
@@ -63,8 +63,8 @@ if [ ! -f "${font_dir}/Meslo LG S Regular for Powerline.otf" ]; then
 fi
 
 # set default shell to zsh
-if [ $(basename $SHELL) != "zsh" ] &&  [ -x /usr/local/bin/zsh ]; then
-  if [ $(grep -c /usr/local/bin/zsh /etc/shells) -eq 0 ]; then
+if [ "$(basename $SHELL)" != "zsh" ] &&  [ -x /usr/local/bin/zsh ]; then
+  if [ "$(grep -c /usr/local/bin/zsh /etc/shells)" -eq 0 ]; then
     echo "Adding /usr/local/bin/zsh to /etc/shells"
     sudo sh -c "echo '/usr/local/bin/zsh' >> /etc/shells"
   fi
@@ -74,7 +74,7 @@ fi
 
 # linking dot files
 echo "Linking dot files"
-for src in $(find $dot_path -name \*.symlink); do
+find $dot_path -name \*.symlink | while read src; do
   link_file $src "$HOME/$(basename "${src%.*}")"
   echo "$HOME/$(basename "${src%.*}")" linked to $src
 done
