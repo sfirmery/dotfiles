@@ -569,7 +569,7 @@ sudo mdutil -E / > /dev/null
 defaults write com.apple.terminal StringEncodings -array 4
 
 # Use a modified version of the Solarized Dark theme by default in Terminal.app
-open "$(dirname $0)/osx-Terminal.app/Solarized Dark xterm-256color.terminal"
+open "$(dirname $0)/osx/Terminal.app/Solarized Dark xterm-256color.terminal"
 osascript <<EOD
 tell application "Terminal"
 	local allOpenedWindows
