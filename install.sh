@@ -28,14 +28,17 @@ if [ "$(uname)" == "Darwin" ] && [ ! -f "$(which brew)" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-# update homebrew and install apps
+# update homebrew and upgrade/install apps
 brew update
+brew upgrade
 brew bundle
 
-# install oh-my-zsh
+# install or upgrade oh-my-zsh
 if [ ! -d "${HOME}/.oh-my-zsh" ]; then
   echo "Installing oh-my-zsh"
   git clone git://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
+else
+  env ZSH=${HOME}/.oh-my-zsh /bin/sh $ZSH/tools/upgrade.sh
 fi
 
 # set default user for zsh
@@ -63,13 +66,14 @@ if [ ! -f "${font_dir}/Meslo LG S Regular for Powerline.otf" ]; then
 fi
 
 # set default shell to zsh
-if [ "$(basename $SHELL)" != "zsh" ] &&  [ -x /usr/local/bin/zsh ]; then
-  if [ "$(grep -c /usr/local/bin/zsh /etc/shells)" -eq 0 ]; then
-    echo "Adding /usr/local/bin/zsh to /etc/shells"
-    sudo sh -c "echo '/usr/local/bin/zsh' >> /etc/shells"
+zsh_path=$(which zsh)
+if [ "$(basename $SHELL)" != "zsh" ] &&  [ -x ${zsh_path} ]; then
+  if [ "$(grep -c ${zsh_path} /etc/shells)" -eq 0 ]; then
+    echo "Adding ${zsh_path} to /etc/shells"
+    sudo sh -c "echo '${zsh_path}' >> /etc/shells"
   fi
   echo "Switching shell to zsh"
-  chsh -s /usr/local/bin/zsh
+  chsh -s ${zsh_path}
 fi
 
 # linking dot files
@@ -79,9 +83,14 @@ find $dot_path -name \*.symlink | while read src; do
   echo "$HOME/$(basename "${src%.*}")" linked to $src
 done
 
-# linking zsh configuration files
+# node.js
+echo "Installing node.js packages"
+npm install -g tern nodemon
 
-# Atom part
+# Atom packages
 apm install --check
 echo "Installing Atom packages"
 apm install --packages-file atom/Atom.packages
+
+# upgrade Atom packages
+apm upgrade -c=false
