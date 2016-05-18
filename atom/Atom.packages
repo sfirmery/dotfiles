@@ -1,8 +1,10 @@
 minimap
 minimap-git-diff
+minimap-find-and-replace
 todo-show
 file-icons
 atom-beautify
+project-manager
 
 linter
 linter-shellcheck
@@ -19,3 +21,5 @@ language-ansible
 pull-requests
 git-time-machine
 merge-conflicts
+
+atom-ternjs
