@@ -3,6 +3,7 @@
     analytics: false
   core:
     disabledPackages: [
+      "welcome"
       "background-tips"
       "exception-reporting"
       "metrics"
@@ -26,18 +27,27 @@
     showInvisibles: true
     softWrap: true
     softWrapAtPreferredLineLength: true
-  "git-diff": {}
+  "git-diff":
+    showIconsInEditorGutter: true
   linter: {}
   minimap:
     absoluteMode: true
     plugins:
+      bookmarks: true
+      "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
       "git-diff": true
       "git-diffDecorationsZIndex": 0
       "highlight-selected": true
       "highlight-selectedDecorationsZIndex": 0
       linter: true
       linterDecorationsZIndex: 0
+      "minimap-hide": true
+      pigments: true
+      selection: true
       "split-diff": true
       "split-diffDecorationsZIndex": 0
+  "save-session":
+    dataSaveFolder: "/Users/sylvain/.atom/packages/save-session/projects"
   welcome:
     showOnStartup: false
