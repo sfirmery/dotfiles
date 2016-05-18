@@ -1,6 +1,7 @@
 cask_args appdir: '/Applications'
 
 tap 'caskroom/cask'
+tap 'caskroom/versions'
 tap 'homebrew/bundle'
 
 brew 'ack'
@@ -19,6 +20,7 @@ cask 'flash'
 cask 'flux'
 cask 'github-desktop'
 cask 'google-chrome'
+cask 'iterm2-beta'
 cask 'sourcetree'
 cask 'transmission'
 cask 'vagrant'

@@ -609,7 +609,13 @@ EOD
 #defaults write org.x.X11 wm_ffm -bool true
 
 # Install the Solarized Dark theme for iTerm
-#open "${HOME}/Terminal/Solarized Dark.itermcolors"
+open "$(dirname $0)/osx/iterm2/Solarized Dark.itermcolors"
+
+if [ ! -d "${HOME}/.iterm/" ]; then
+	mkdir "${HOME}/.iterm/"
+fi
+defaults write -app iterm PrefsCustomFolder -string "${HOME}/.iterm/"
+defaults write -app iterm LoadPrefsFromCustomFolder -bool true
 
 # Don’t display the annoying prompt when quitting iTerm
 #defaults write com.googlecode.iterm2 PromptOnQuit -bool false
