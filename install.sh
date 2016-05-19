@@ -91,7 +91,10 @@ npm install -g tern nodemon
 # Atom packages
 apm install --check
 echo "Installing Atom packages"
-apm install --packages-file atom/Atom.packages
+atom_packages=$(comm -23 <(cat atom/Atom.packages | sort) <(apm list --installed --bare | cut -d@ -f1 | sort) | grep -v "^$")
+if [ "$(echo -n ${atom_packages} | wc -l)" -gt 0 ]; then
+  apm install --packages-file <(echo ${atom_packages})
+fi
 
 # upgrade Atom packages
 apm upgrade -c=false
