@@ -33,12 +33,13 @@ brew update
 brew upgrade
 brew bundle
 
-# install or upgrade oh-my-zsh
-if [ ! -d "${HOME}/.oh-my-zsh" ]; then
-  echo "Installing oh-my-zsh"
-  git clone git://github.com/robbyrussell/oh-my-zsh.git ${HOME}/.oh-my-zsh
+# install or upgrade prezto
+if [ ! -d "${ZDOTDIR:-$HOME}/.zprezto" ]; then
+  echo "Installing prezto"
+  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 else
-  env ZSH=${HOME}/.oh-my-zsh /bin/sh $ZSH/tools/upgrade.sh
+  cd "${ZDOTDIR:-$HOME}/.zprezto" && git pull && git submodule update --init --recursive
+  cd ${dot_path} || exit
 fi
 
 # set default user for zsh
