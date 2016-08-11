@@ -1,6 +1,7 @@
 "*":
   "atom-beautify":
-    analytics: false
+    general:
+      analytics: false
   core:
     disabledPackages: [
       "welcome"
@@ -12,26 +13,33 @@
     ignoredNames: [
       ".bundle"
       ".git"
+      ".hg"
       "log"
       "tmp"
       "vendor"
+      ".DS_Store"
     ]
     themes: [
       "one-light-ui"
       "solarized-dark-syntax"
     ]
   editor:
+    autoIndentOnPaste: false
+    backUpBeforeSaving: true
     fontFamily: "Menlo"
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
     softWrap: true
-    softWrapAtPreferredLineLength: true
+    softWrapHangingIndent: 4
   "git-diff":
     showIconsInEditorGutter: true
-  linter: {}
+  linter:
+    showErrorPanel: false
+  "linter-shellcheck": {}
+  "markdown-preview":
+    useGitHubStyle: true
   minimap:
-    absoluteMode: true
     plugins:
       bookmarks: true
       "find-and-replace": true
@@ -43,6 +51,7 @@
       linter: true
       linterDecorationsZIndex: 0
       "minimap-hide": true
+      "minimap-hideDecorationsZIndex": 0
       pigments: true
       selection: true
       "split-diff": true
@@ -51,3 +60,13 @@
     dataSaveFolder: "/Users/sylvain/.atom/packages/save-session/projects"
   welcome:
     showOnStartup: false
+  whitespace: {}
+".js.regexp.replacement.source":
+  editor:
+    softWrapHangingIndent: 4
+".js.regexp.source":
+  editor:
+    softWrapHangingIndent: 4
+".js.source":
+  editor:
+    softWrapHangingIndent: 4

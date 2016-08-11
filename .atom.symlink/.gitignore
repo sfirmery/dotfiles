@@ -11,3 +11,5 @@ packages
 themes
 
 projects.cson
+
+split-diff
