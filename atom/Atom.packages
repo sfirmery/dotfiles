@@ -1,13 +1,17 @@
 minimap
 minimap-git-diff
 minimap-find-and-replace
+minimap-hide
 todo-show
 file-icons
 atom-beautify
 project-manager
+language-spec
+language-docker
 
 linter
 linter-shellcheck
+linter-pylama
 minimap-linter
 
 split-diff
@@ -18,7 +22,6 @@ minimap-highlight-selected
 
 language-ansible
 
-pull-requests
 git-time-machine
 merge-conflicts
 
