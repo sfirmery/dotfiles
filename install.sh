@@ -29,9 +29,11 @@ if [ "$(uname)" == "Darwin" ] && [ ! -f "$(which brew)" ]; then
 fi
 
 # update homebrew and upgrade/install apps
-brew update
-brew upgrade
-brew bundle
+if [ "$(uname)" == "Darwin" ]; then
+  brew update
+  brew upgrade
+  brew bundle
+fi
 
 # install or upgrade prezto
 if [ ! -d "${ZDOTDIR:-$HOME}/.zprezto" ]; then
@@ -48,28 +50,29 @@ if [ ! -f "${HOME}/.zsh-default_user" ] && [ ! -h "${HOME}/.zsh-default_user" ];
 fi
 
 # install powerline fonts
-if [[ `uname` == 'Darwin' ]]; then
-  # MacOS
-  font_dir="$HOME/Library/Fonts"
-else
-  # Linux
-  font_dir="$HOME/.local/share/fonts"
-  mkdir -p $font_dir
-fi
-if [ ! -f "${font_dir}/Meslo LG S Regular for Powerline.otf" ]; then
-  echo "Installing powerline font in ${font_dir}"
-  cp "Meslo LG S Regular for Powerline.otf" "$font_dir/"
-  # Reset font cache on Linux
-  if command -v fc-cache @>/dev/null ; then
-      echo "Resetting font cache, this may take a moment..."
-      fc-cache -f $font_dir
-  fi
-fi
+# if [[ `uname` == 'Darwin' ]]; then
+#   # MacOS
+#   font_dir="$HOME/Library/Fonts"
+# else
+#   # Linux
+#   font_dir="$HOME/.local/share/fonts"
+#   mkdir -p $font_dir
+# fi
+# if [ ! -f "${font_dir}/Meslo LG S Regular for Powerline.otf" ]; then
+#   echo "Installing powerline font in ${font_dir}"
+#   cp "Meslo LG S Regular for Powerline.otf" "$font_dir/"
+#   # Reset font cache on Linux
+#   if command -v fc-cache @>/dev/null ; then
+#       echo "Resetting font cache, this may take a moment..."
+#       fc-cache -f $font_dir
+#   fi
+# fi
 
 # set default shell to zsh
 zsh_path=$(which zsh)
 if [ "$(basename $SHELL)" != "zsh" ] &&  [ -x ${zsh_path} ]; then
-  if [ "$(grep -c ${zsh_path} /etc/shells)" -eq 0 ]; then
+  # on osx zsh is in /usr/local/bin, we need to add it in /etc/shells
+  if [ "$(uname)" == "Darwin" ] && [ "$(grep -c ${zsh_path} /etc/shells)" -eq 0 ]; then
     echo "Adding ${zsh_path} to /etc/shells"
     sudo sh -c "echo '${zsh_path}' >> /etc/shells"
   fi
@@ -84,17 +87,21 @@ find $dot_path -name \*.symlink | while read src; do
   echo "$HOME/$(basename "${src%.*}")" linked to $src
 done
 
-# node.js
-echo "Installing node.js packages"
-npm install -g tern nodemon
+# # node.js
+# if [ -e "$(which npm)" ]; then
+#   echo "Installing node.js packages"
+#   sudo npm install -g tern nodemon azure-cli
+# fi
 
 # Atom packages
-apm install --check
-echo "Installing Atom packages"
-atom_packages=$(comm -23 <(cat atom/Atom.packages | sort) <(apm list --installed --bare | cut -d@ -f1 | sort) | grep -v "^$")
-if [ "$(echo -n ${atom_packages} | wc -l)" -gt 0 ]; then
-  apm install --packages-file <(echo ${atom_packages})
-fi
+if [ -e "$(which apm)" ]; then
+  apm install --check
+  echo "Installing Atom packages"
+  atom_packages=$(comm -23 <(cat atom/Atom.packages | sort) <(apm list --installed --bare | cut -d@ -f1 | sort) | grep -v "^$")
+  if [ "$(echo -n ${atom_packages} | wc -l)" -gt 0 ]; then
+    apm install --packages-file <(echo ${atom_packages})
+  fi
 
-# upgrade Atom packages
-apm upgrade -c=false
+  # upgrade Atom packages
+  apm upgrade -c=false
+fi
