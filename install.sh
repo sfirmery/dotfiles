@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 cd "$(dirname $0)" || exit
 dot_path=$(pwd -P)
 date=$(date +%Y%m%d-%H%M%S)
@@ -49,24 +52,27 @@ if [ ! -f "${HOME}/.zsh-default_user" ] && [ ! -h "${HOME}/.zsh-default_user" ];
   echo "export DEFAULT_USER=\"$(whoami)\"" > ${HOME}/.zsh-default_user
 fi
 
-# install powerline fonts
-# if [[ `uname` == 'Darwin' ]]; then
-#   # MacOS
-#   font_dir="$HOME/Library/Fonts"
-# else
-#   # Linux
-#   font_dir="$HOME/.local/share/fonts"
-#   mkdir -p $font_dir
-# fi
-# if [ ! -f "${font_dir}/Meslo LG S Regular for Powerline.otf" ]; then
-#   echo "Installing powerline font in ${font_dir}"
-#   cp "Meslo LG S Regular for Powerline.otf" "$font_dir/"
-#   # Reset font cache on Linux
-#   if command -v fc-cache @>/dev/null ; then
-#       echo "Resetting font cache, this may take a moment..."
-#       fc-cache -f $font_dir
-#   fi
-# fi
+# install fonts
+if [[ `uname` == 'Darwin' ]]; then
+  # MacOS
+  font_dir="$HOME/Library/Fonts"
+else
+  # Linux
+  font_dir="$HOME/.local/share/fonts"
+  mkdir -p $font_dir
+fi
+new_font=0
+find fonts -maxdepth 1 -name \*.otf | while read font_file; do
+  if [ ! -f "${font_dir}/$(basename ${font_file})" ]; then
+    echo "Installing ${font_file} in ${font_dir}"
+    cp "${font_file}" "${font_dir}/"
+    new_font=1
+  fi
+done
+if [ $new_font -gt 0 ] && command -v fc-cache @>/dev/null ; then
+    echo "Resetting font cache, this may take a moment..."
+    fc-cache -f $font_dir
+fi
 
 # set default shell to zsh
 zsh_path=$(which zsh)
@@ -94,14 +100,15 @@ done
 # fi
 
 # Atom packages
-if [ -e "$(which apm)" ]; then
-  apm install --check
-  echo "Installing Atom packages"
-  atom_packages=$(comm -23 <(cat atom/Atom.packages | sort) <(apm list --installed --bare | cut -d@ -f1 | sort) | grep -v "^$")
-  if [ "$(echo -n ${atom_packages} | wc -l)" -gt 0 ]; then
-    apm install --packages-file <(echo ${atom_packages})
-  fi
+#if [ -e "$(which apm)" ]; then
+#  apm install --check
+#  echo "Installing Atom packages"
+#  atom_packages=$(comm -23 <(cat atom/Atom.packages | sort) <(apm list --installed --bare | cut -d@ -f1 | sort) | grep -v "^$")
+#  if [ "$(echo -n ${atom_packages} | wc -l)" -gt 0 ]; then
+#    apm install --packages-file <(echo ${atom_packages})
+#  fi
+#
+#  # upgrade Atom packages
+#  apm upgrade -c=false
+#fi
 
-  # upgrade Atom packages
-  apm upgrade -c=false
-fi
