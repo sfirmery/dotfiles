@@ -4,3 +4,4 @@ Thanks to:
 - Mathias Bynens: https://github.com/mathiasbynens/dotfiles
 - Zach Holman: https://github.com/holman/dotfiles
 - http://hints.macworld.com/article.php?story=20131123074223584
+- https://github.com/samoshkin/tmux-config
