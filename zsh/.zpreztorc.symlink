@@ -32,6 +32,7 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'gnu-utility' \
   'utility' \
+  'helper' \
   'completion' \
   'prompt' \
   'git' \
@@ -40,7 +41,8 @@ zstyle ':prezto:load' pmodule \
   'tmux' \
   'syntax-highlighting' \
   'history-substring-search' \
-  'fasd'
+  'fasd' \
+  'python'
 
 #
 # Autosuggestions
@@ -171,3 +173,7 @@ zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
 
 # Integrate with iTerm2.
 zstyle ':prezto:module:tmux:iterm' integrate 'yes'
+
+# Python
+zstyle ':prezto:module:python:virtualenv' auto-switch 'yes'
+

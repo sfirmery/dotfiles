@@ -1,16 +1,157 @@
+scriptencoding utf-8
+set encoding=utf-8
+
+let mapleader = ","
+
+" Colors
+" ------
+
 " Use the Solarized Dark theme
-set background=dark
-colorscheme solarized
-let g:solarized_termtrans=1
+set background=light
+colorscheme flattened_light
 
+" Spaces and tabs
+" ---------------
 
-" Enable line numbers
-set number
-" Enable syntax highlighting
-syntax on
-" Highlight current line
-set cursorline
-" Make tabs as wide as two spaces
-set tabstop=2
+set tabstop=4       " number of visual spaces per tab
+set softtabstop=4   " number of space per tab when editing
+set shiftwidth=4    " number of space for autoindent
+set expandtab       " tabs are spaces
+
 " Show “invisible” characters
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set list lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_    "
+
+
+" UI
+" --
+
+set number          " show line numbers
+set showcmd         " show command in bottom bar
+set cursorline      " highlight current line
+syntax on           " colorized syntax
+
+filetype indent on      " load filetype-specific indent files
+filetype plugin on      " load filetype-specific plugin
+
+set wildmenu            " visual autocomplete for command menu
+set lazyredraw          " redraw only when we need to.
+set showmatch           " highlight matching [{()}]
+
+set updatetime=100      " update every 100ms instead of 4s
+
+set hidden              " don't close buffer when modified
+
+" Search
+" ------
+
+set incsearch           " search as characters are entered
+set hlsearch            " highlight matches
+
+nnoremap <esc><esc> :noh<cr>       " disable search highlight
+
+" noremap <leader>= :Autoformat<CR>
+
+" Custom mapping for french keyboard
+" ----------------------------------
+" nmap ^ ^
+" omap ^ ^
+" xmap ^ ^
+nnoremap <buffer> <silent> <Leader>= :ALEFix<CR>
+
+" nmap ^ [
+" nmap $ ]
+" omap ^ [
+" omap $ ]
+" xmap ^ [
+" xmap $ ]
+
+let g:netrw_banner = 0
+
+" custom file type
+autocmd BufRead,BufNewFile *.build_defs setf bzl
+
+" Plugins
+" -------
+
+" vim-airline
+let g:airline#extensions#tabline#enabled = 1 " smarter tab line
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved' " file path formater
+
+" vim-airline-themes
+let g:airline_theme='base16'
+
+" w0rp/ale
+let g:ale_completion_enabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_linters = {}
+
+let b:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']} " global fixers
+let g:ale_fix_on_save = 1
+
+nnoremap <buffer> <silent> <Leader>= :ALEFix<CR>
+
+" Move between linting errors
+nnoremap ]r :ALENextWrap<CR>
+nnoremap [r :ALEPreviousWrap<CR>
+
+" buffergator
+let g:buffergator_suppress_keymaps = 1
+nnoremap <silent> <Leader>b :BuffergatorOpen<CR>
+nnoremap <silent> <Leader>B :BuffergatorClose<CR>
+nnoremap <silent> gb :BuffergatorMruCyclePrev<CR>
+nnoremap <silent> gB :BuffergatorMruCycleNext<CR>
+
+" fzf
+" If installed using Homebrew
+set rtp+=/usr/local/opt/fzf
+
+" If installed using git
+set rtp+=~/.fzf
+
+nmap <silent> ; :Buffers<CR>
+nmap <silent> <Leader>t :Files<CR>
+nmap <silent> <Leader>gg :GFiles<CR>
+nmap <silent> <Leader>g? :GFiles?<CR>
+nmap <silent> <Leader>r :Tags<CR>
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors = {
+  \ 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" bufkill
+map <M-w> :BD<CR>
+
+" vim-gutentags
+"let g:gutentags_ctags_exclude_wildignore = 1
+"let g:gutentags_ctags_exclude = [
+"    \ 'plz-out/*', '.plz-cache/*',
+"    \ '.bootstrap/*',
+"    \ ]
+
+" completor.vim
+let g:completor_python_binary='/usr/bin/python3'
+
+noremap <silent> <leader>d :call completor#do('definition')<CR>
+noremap <silent> <leader>c :call completor#do('doc')<CR>
+noremap <silent> <leader>f :call completor#do('format')<CR>
+noremap <silent> <leader>s :call completor#do('hover')<CR>
+
+" polyglot.vim
+let g:polyglot_disabled = ['go']
+"
+" vim-go.vim
+let g:go_bin_path = $HOME."/go/bin"
+let g:go_fmt_autosave = 0

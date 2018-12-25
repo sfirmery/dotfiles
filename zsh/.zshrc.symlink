@@ -7,14 +7,24 @@
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+
+# Returns whether the given command is executable or aliased.
+_has() {
+    return $( whence $1 >/dev/null )
+}
 
 setopt ZLE
 
 # Who doesn't want home and end to work?
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
+
+bindkey "^[f" vi-forward-word
+bindkey "^[[1;2C" vi-forward-word
+bindkey "^[b" vi-backward-word
+bindkey "^[[1;2D" vi-backward-word
 
 # Search based on what you typed in already
 bindkey -M vicmd "//" history-beginning-search-backward
@@ -23,5 +33,90 @@ bindkey -M vicmd "??" history-beginning-search-forward
 bindkey -M vicmd "q" push-line-or-edit
 bindkey -M viins ' ' magic-space
 
+# fzf via Homebrew
+if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
+    source /usr/local/opt/fzf/shell/key-bindings.zsh
+    source /usr/local/opt/fzf/shell/completion.zsh
+fi
+
+# fzf via local installation
+if [ -e ~/.fzf ]; then
+    export PATH=$PATH:$HOME/.fzf/bin
+    source ~/.fzf/shell/key-bindings.zsh
+    source ~/.fzf/shell/completion.zsh
+fi
+
+# reload configuration on USR1
+function usr1_reload() {
+    source ~/.zshrc
+}
+
+add-zsh-trap USR1 usr1_reload
+
 # load personal zsh configuration
 source ${HOME}/.zsh-personal
+
+_gen_fzf_default_opts() {
+    local base03="234"
+    local base02="235"
+    local base01="240"
+    local base00="241"
+    local base0="244"
+    local base1="245"
+    local base2="254"
+    local base3="230"
+    local yellow="136"
+    local orange="166"
+    local red="160"
+    local magenta="125"
+    local violet="61"
+    local blue="33"
+    local cyan="37"
+    local green="64"
+
+    # Comment and uncomment below for the light theme.
+
+
+    if [ "$color_background" = "dark" ]; then
+        # Solarized Dark color scheme for fzf
+        FZF_COLORS='
+            --color=bg+:#073642,fg+:#eee8d5
+            --color=header:#586e75,pointer:#719e07
+            --color=marker:#719e07
+        '
+    #     export FZF_DEFAULT_OPTS="
+    #         --color fg:-1,bg:-1,hl:$blue,fg+:$base2,bg+:$base02,hl+:$blue
+    #         --color info:$yellow,prompt:$yellow,pointer:$base3,marker:$base3,spinner:$yellow
+    #     "
+    else;
+        # Solarized Light color scheme for fzf
+        FZF_COLORS='
+            --color=bg+:#eee8d5,fg+:#073642
+            --color=header:#586e75,pointer:#719e07
+            --color=marker:#719e07
+        '
+    #     export FZF_DEFAULT_OPTS="
+    #         --color fg:-1,bg:-1,hl:$blue,fg+:$base02,bg+:$base2,hl+:$blue
+    #         --color info:$yellow,prompt:$yellow,pointer:$base03,marker:$base03,spinner:$yellow
+    #     "
+    fi
+    export FZF_DEFAULT_OPTS="
+        --color=bg:-1,fg:-1
+        --color=hl:#586e75,hl+:#719e07
+        --color=spinner:#719e07,prompt:#719e07,info:#cb4b16
+        $FZF_COLORS
+    "
+}
+
+if _has fzf && _has ag; then
+    export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+    # Solarized colors
+    # export FZF_DEFAULT_OPTS='
+    #   --color=bg+:#073642,bg:#002b36,spinner:#719e07,hl:#586e75
+    #   --color=fg:#839496,header:#586e75,info:#cb4b16,pointer:#719e07
+    #   --color=marker:#719e07,fg+:#839496,prompt:#719e07,hl+:#719e07
+    # '
+    _gen_fzf_default_opts
+fi
