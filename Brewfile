@@ -11,6 +11,7 @@ brew 'awscli'
 brew 'coreutils'
 brew 'fasd'
 brew 'fping'
+brew 'fzf'
 brew 'git'
 brew 'git-lfs'
 brew 'gnupg'
@@ -22,14 +23,19 @@ brew 'node'
 brew 'pv'
 brew 'python'
 brew 'qemu'
-brew 'shellcheck'
 brew 'ssh-copy-id'
 brew 'svn'
 brew 'syncthing'
+brew 'the_silver_searcher'
 brew 'tmux'
 brew 'unrar'
 brew 'wget'
 brew 'zsh'
+
+# Linters
+brew 'shellcheck'
+brew 'shfmt'
+
 
 cask 'xquartz'
 
